@@ -1,0 +1,72 @@
+{% extends "base_bitcoin" %}
+{% block title %}
+bitcoin
+{% endblock %}
+{% block content %}
+{% if 0 == transfer_dict['type'] %}
+{% elif 1 == transfer_dict['type']%}
+<p>{{transfer_dict['pkuc']}}</p>
+<p>|<p>
+<p>{{transfer_dict['bauc']}}</p>
+<p>|<p>
+<div><p>balance: <a id="buc">click me</a><img id='jiazaiuc' src={{url_for('bitcoin.static', filename='jiazai.gif')}} style="display: none;"></p></div>
+<br>
+<p>{{transfer_dict['pkc']}}</p>
+<p>|<p>
+<p>{{transfer_dict['bac']}}</p>
+<p>|<p>
+<div><p>balance: <a id="bc">click me</a><img id='jiazaic' src={{url_for('bitcoin.static', filename='jiazai.gif')}} style="display: none;"></p></div>
+{% elif 2 == transfer_dict['type']%}
+Not a valid private key or bitcoin address!
+{% else %}
+Can't understand...
+{% endif %}
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#buc").click(function(){
+		var get_url = "http://open.qukuai.com/address/{{transfer_dict['bauc']}}?key=2ejf4jgfNoya8Y3GnQf68e4J23HherpUh1&callback=?";  
+		$.ajax({
+					type : 'GET',
+					dataType: "json",
+					url : get_url,
+					async : false,
+					beforeSend:function(){
+						document.getElementById("buc").innerHTML = '';
+						document.getElementById("jiazaiuc").style.display = "inline";
+					},
+					complete:function(){
+						$("#jiazaiuc").hide();
+					},
+					success : function (data) {
+						document.getElementById("buc").innerHTML = data.balance/100000000+' BTC';
+					},
+					error : function (data) {
+						document.getElementById("buc").innerHTML = 'error';
+					},
+			 });
+	});
+	$("#bc").click(function(){
+		var get_url = "http://open.qukuai.com/address/{{transfer_dict['bac']}}?key=2ejf4jgfNoya8Y3GnQf68e4J23HherpUh1&callback=?";  
+		$.ajax({
+					type : 'GET',
+					dataType: "json",
+					url : get_url,
+					async : false,
+					beforeSend:function(){
+						document.getElementById("bc").innerHTML = '';
+						document.getElementById("jiazaic").style.display = "inline";
+					},
+					complete:function(){
+						$("#jiazaic").hide();
+					},
+					success : function (data) {
+						document.getElementById("bc").innerHTML = data.balance/100000000+' BTC';
+					},
+					error : function (data) {
+						document.getElementById("bc").innerHTML = 'error';
+					},
+			 });
+	});
+});
+</script>
+{% endblock %}

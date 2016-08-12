@@ -1,0 +1,23 @@
+<html>
+<head>
+<link href="{{url_for('bitcoin.static', filename='style.css')}}" rel="stylesheet" type="text/css"/>
+<script src="{{url_for('bitcoin.static', filename='jquery-3.1.0.min.js')}}"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+<div class="container">
+  <div id="search">
+    <h3>private key or bitcoin address</h3>
+	<form method="POST" action="{{url_for('bitcoin.bitcoin_index')}}">
+	{{form.q}}
+    <input class="button" type="submit" value="Search">
+	{{ form.csrf_token }}
+	</form>
+  </div>
+</div>
+<div class="container">
+{% block content %}{% endblock %}
+</div>
+</body>
+</html>

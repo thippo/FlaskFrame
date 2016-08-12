@@ -1,0 +1,37 @@
+{% extends "base_bitcoin" %}
+{% block title %}
+bitcoin
+{% endblock %}
+{% block content %}
+<p>{{data}}</p>
+<div><p>balance: <a id="balance">click me</a><img id='jiazai' src={{url_for('bitcoin.static', filename='jiazai.gif')}} style="display: none;"></p></div>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#balance").click(function(){
+		var get_url = "http://open.qukuai.com/address/{{data}}?key=2ejf4jgfNoya8Y3GnQf68e4J23HherpUh1&callback=?";  
+		$.ajax({
+					type : 'GET',
+					dataType: "json",
+					url : get_url,
+					async : false,
+					beforeSend:function(){
+						document.getElementById("balance").innerHTML = '';
+						document.getElementById("jiazai").style.display = "inline";
+					},
+					complete:function(){
+						$("#jiazai").hide();
+					},
+					success : function (data) {
+						document.getElementById("balance").innerHTML = data.balance/100000000+' BTC';
+					},
+					error : function (data) {
+						document.getElementById("balance").innerHTML = 'error';
+					},
+			 });
+	});
+});
+
+
+
+</script>
+{% endblock %}
